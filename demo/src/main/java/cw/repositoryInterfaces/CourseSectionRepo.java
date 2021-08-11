@@ -1,4 +1,7 @@
 package cw.repositoryInterfaces;
 
-public interface CourseSectionRepo {
+import cw.entities.CourseSection;
+import org.springframework.data.jpa.repository.JpaRepository;
+
+public interface CourseSectionRepo extends JpaRepository<CourseSection, Long> {
 }
