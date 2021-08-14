@@ -21,19 +21,7 @@
     <dependencies>
         <dependency>
             <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-data-jdbc</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-data-jpa</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-data-r2dbc</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-data-rest</artifactId>
         </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -47,33 +35,13 @@
             <groupId>org.springframework.data</groupId>
             <artifactId>spring-data-rest-hal-explorer</artifactId>
         </dependency>
-        <dependency>
-            <groupId>org.springframework.experimental</groupId>
-            <artifactId>spring-native</artifactId>
-            <version>${spring-native.version}</version>
-        </dependency>
 
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-devtools</artifactId>
-            <scope>runtime</scope>
-            <optional>true</optional>
-        </dependency>
         <dependency>
             <groupId>com.h2database</groupId>
             <artifactId>h2</artifactId>
             <scope>runtime</scope>
         </dependency>
-        <dependency>
-            <groupId>io.r2dbc</groupId>
-            <artifactId>r2dbc-h2</artifactId>
-            <scope>runtime</scope>
-        </dependency>
-        <dependency>
-            <groupId>io.r2dbc</groupId>
-            <artifactId>r2dbc-postgresql</artifactId>
-            <scope>runtime</scope>
-        </dependency>
+
         <dependency>
             <groupId>org.postgresql</groupId>
             <artifactId>postgresql</artifactId>
@@ -99,6 +67,13 @@
             <artifactId>reactor-test</artifactId>
             <scope>test</scope>
         </dependency>
+
+        <!--        <dependency>-->
+        <!--            <groupId>org.graalvm.buildtools</groupId>-->
+        <!--            <artifactId>junit-platform-native</artifactId>-->
+        <!--            <version>${native-buildtools.version}</version>-->
+        <!--            <scope>test</scope>-->
+        <!--        </dependency>-->
     </dependencies>
 
     <build>
@@ -192,39 +167,18 @@
                 <native-buildtools.version>0.9.1</native-buildtools.version>
             </properties>
             <dependencies>
-                <dependency>
-                    <groupId>org.graalvm.buildtools</groupId>
-                    <artifactId>junit-platform-native</artifactId>
-                    <version>${native-buildtools.version}</version>
-                    <scope>test</scope>
-                </dependency>
+
             </dependencies>
             <build>
                 <plugins>
                     <plugin>
-                        <groupId>org.graalvm.buildtools</groupId>
-                        <artifactId>native-maven-plugin</artifactId>
-                        <version>${native-buildtools.version}</version>
-                        <executions>
-                            <execution>
-                                <id>test-native</id>
-                                <phase>test</phase>
-                                <goals>
-                                    <goal>test</goal>
-                                </goals>
-                            </execution>
-                            <execution>
-                                <id>build-native</id>
-                                <phase>package</phase>
-                                <goals>
-                                    <goal>build</goal>
-                                </goals>
-                            </execution>
-                        </executions>
+                        <groupId>org.springframework.boot</groupId>
+                        <artifactId>spring-boot-maven-plugin</artifactId>
                     </plugin>
                 </plugins>
             </build>
         </profile>
     </profiles>
+
 
 </project>
