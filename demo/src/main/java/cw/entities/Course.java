@@ -9,11 +9,19 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 
 @Entity
-@Getter @Setter @NoArgsConstructor
+@Getter
+@Setter
+@NoArgsConstructor
 public class Course {
 
-    private @Id @GeneratedValue Long id;
+    private @Id
+    @GeneratedValue
+    Long id;
     private String title;
     private int unit;
 
+    public Course(String title, int unit) {
+        this.title = title;
+        this.unit = unit;
+    }
 }

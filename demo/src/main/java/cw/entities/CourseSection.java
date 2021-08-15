@@ -9,13 +9,21 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 
 @Entity
-@Getter @Setter @NoArgsConstructor
+@Getter
+@Setter
+@NoArgsConstructor
 public class CourseSection {
     private @Id
     @GeneratedValue
     Long id;
+    private int sectionNumber;
     private String courseTitle;
-    private String instructorName;
+    private Long instructorID;
+    private int numberOfStudents;
 
-
+    public CourseSection(int sectionNumber, String courseTitle, Long instructorID) {
+        this.sectionNumber = sectionNumber;
+        this.courseTitle = courseTitle;
+        this.instructorID = instructorID;
+    }
 }
