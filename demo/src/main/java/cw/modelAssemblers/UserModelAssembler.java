@@ -1,4 +1,4 @@
-package cw.controllers.modelAssemblers;
+package cw.modelAssemblers;
 
 import cw.controllers.UserController;
 import cw.entities.User;

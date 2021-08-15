@@ -23,7 +23,8 @@ public class User {
     private String phone;
     private boolean active;
     private boolean isAdmin;
-
+    private String username;
+    private String password;
 
     User(Long id, String firstname, String lastname, String name, String phone, boolean active, boolean isAdmin) {
         this.id = id;

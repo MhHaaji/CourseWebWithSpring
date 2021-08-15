@@ -1,4 +1,5 @@
 package cw.exeptions;
 
-public class AccessDenied {
+public class AccessDeniedEx extends Exception {
+
 }
