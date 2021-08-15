@@ -2,7 +2,7 @@ package cw.controllers;
 
 import cw.entities.User;
 import cw.exeptions.UserNotFoundEx;
-import cw.modelAssemblers.UserModelAssembler;
+import cw.controllers.modelAssemblers.UserModelAssembler;
 import cw.repositoryInterfaces.UserRepo;
 import org.springframework.hateoas.CollectionModel;
 import org.springframework.hateoas.EntityModel;

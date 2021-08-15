@@ -9,7 +9,7 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 @SpringBootApplication
 
 @ComponentScan("cw.controllers")
-@ComponentScan("cw.modelAssemblers")
+@ComponentScan("cw.controllers.modelAssemblers")
 @ComponentScan("cw.repositoryInterfaces")
 //
 @EntityScan("cw.entities")

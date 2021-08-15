@@ -1,4 +1,4 @@
-package cw.modelAssemblers;
+package cw.controllers.modelAssemblers;
 
 public class CourseSectionRegitrationModelAssembler {
 }
