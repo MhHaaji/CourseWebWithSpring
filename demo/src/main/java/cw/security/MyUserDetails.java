@@ -1,6 +1,11 @@
 package cw.security;
 
+import cw.entities.User;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.stereotype.Service;
 
 import java.util.Collection;
 
@@ -14,17 +19,15 @@ public class MyUserDetails implements org.springframework.security.core.userdeta
     private String username;
     private String password;
 
-    public MyUserDetails(String firstname, String lastname, String name,
-                         String phone, boolean active, boolean isAdmin,
-                         String username, String password) {
-        this.firstname = firstname;
-        this.lastname = lastname;
-        this.name = name;
-        this.phone = phone;
-        this.active = active;
-        this.isAdmin = isAdmin;
-        this.username = username;
-        this.password = password;
+    public MyUserDetails(User user) {
+        this.firstname = user.getUsername();
+        this.lastname = user.getLastname();
+        this.name = user.getName();
+        this.phone = user.getPhone();
+        this.active = user.isActive();
+        this.isAdmin = user.isAdmin();
+        this.username = user.getUsername();
+        this.password = user.getPassword();
     }
 
     @Override
