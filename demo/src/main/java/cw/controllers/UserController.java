@@ -3,6 +3,9 @@ package cw.controllers;
 import cw.modelAssemblers.UserModelAssembler;
 import cw.entities.User;
 import cw.exeptions.UserNotFoundEx;
+import cw.repositoryInterfaces.CourseRepo;
+import cw.repositoryInterfaces.CourseSectionRegistrationRepo;
+import cw.repositoryInterfaces.CourseSectionRepo;
 import cw.repositoryInterfaces.UserRepo;
 import org.springframework.hateoas.CollectionModel;
 import org.springframework.hateoas.EntityModel;
@@ -24,12 +27,18 @@ import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 public class UserController {
 
     private final UserRepo userRepo;
+    private final CourseRepo courseRepo;
+    private final CourseSectionRepo courseSectionRepo;
+    private final CourseSectionRegistrationRepo courseSectionRegistrationRepo;
 
     private final UserModelAssembler assembler;
 
-    public UserController(UserModelAssembler assembler, UserRepo repo) {
+    public UserController(UserModelAssembler assembler, UserRepo repo, CourseRepo courseRepo, CourseSectionRepo courseSectionRepo, CourseSectionRegistrationRepo courseSectionRegistrationRepo) {
         this.userRepo = repo;
         this.assembler = assembler;
+        this.courseRepo = courseRepo;
+        this.courseSectionRepo = courseSectionRepo;
+        this.courseSectionRegistrationRepo = courseSectionRegistrationRepo;
     }
 
     @GetMapping("/users")
