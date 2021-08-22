@@ -7,6 +7,7 @@ import cw.repositoryInterfaces.CourseRepo;
 import cw.repositoryInterfaces.CourseSectionRegistrationRepo;
 import cw.repositoryInterfaces.CourseSectionRepo;
 import cw.repositoryInterfaces.UserRepo;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.hateoas.CollectionModel;
 import org.springframework.hateoas.EntityModel;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -26,6 +27,7 @@ import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 
 public class UserController {
 
+    @Autowired
     private final UserRepo userRepo;
     private final CourseRepo courseRepo;
     private final CourseSectionRepo courseSectionRepo;

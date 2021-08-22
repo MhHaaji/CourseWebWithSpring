@@ -13,7 +13,7 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 //@ComponentScan("cw.repositoryInterfaces")
 ////
 //@EntityScan("cw.entities")
-//@EnableJpaRepositories("cw.repositoryInterfaces")
+@EnableJpaRepositories("cw.repositoryInterfaces")
 public class DemoApplication {
 
     public static void main(String... args) {
