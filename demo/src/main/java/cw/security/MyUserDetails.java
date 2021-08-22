@@ -1,11 +1,8 @@
 package cw.security;
 
 import cw.entities.User;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.Getter;
 import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.stereotype.Service;
 
 import java.util.Collection;
 
@@ -18,6 +15,8 @@ public class MyUserDetails implements org.springframework.security.core.userdeta
     private boolean isAdmin;
     private String username;
     private String password;
+    @Getter
+    private Long userID;
 
     public MyUserDetails(User user) {
         this.firstname = user.getUsername();
@@ -28,6 +27,7 @@ public class MyUserDetails implements org.springframework.security.core.userdeta
         this.isAdmin = user.isAdmin();
         this.username = user.getUsername();
         this.password = user.getPassword();
+        this.userID = user.getId();
     }
 
     @Override
@@ -64,4 +64,5 @@ public class MyUserDetails implements org.springframework.security.core.userdeta
     public boolean isEnabled() {
         return active;
     }
+
 }

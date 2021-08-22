@@ -26,6 +26,8 @@ public class User {
     private String username;
     private String password;
 
+
+
     User(Long id, String firstname, String lastname, String name, String phone, boolean active, boolean isAdmin) {
         this.id = id;
         this.firstname = firstname;
