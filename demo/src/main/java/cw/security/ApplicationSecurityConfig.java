@@ -2,6 +2,7 @@ package cw.security;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
@@ -24,7 +25,9 @@ public class ApplicationSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Autowired
     private final UserDetailsService userDetailsService;
-    @Value("#{passwordEncoder.encode('${haaji.admin-password}')}")
+
+    //    @Value("#{passwordEncoder.encode('${haaji.admin-password}')}")
+    @Value("${haaji.admin-password}")
     private String adminPassword;
     @Value("${haaji.admin-username}")
     private String adminUsername;
@@ -53,10 +56,12 @@ public class ApplicationSecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
         auth
-                .userDetailsService(userDetailsService)
-                .and().inMemoryAuthentication()
+                .userDetailsService(userDetailsService)// connecting to Repository
+                .passwordEncoder(passwordEncoder)
+
+                .and().inMemoryAuthentication() // making admin user:
                 .withUser(adminUsername)
-                .password(adminPassword)
+                .password(passwordEncoder.encode(adminPassword))
                 .roles(ADMIN.name());
     }
 

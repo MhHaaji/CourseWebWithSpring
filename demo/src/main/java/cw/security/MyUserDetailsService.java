@@ -1,6 +1,6 @@
 package cw.security;
 
-import cw.entities.User;
+import cw.entities.MyUser;
 import cw.repositoryInterfaces.UserRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -21,7 +21,7 @@ public class MyUserDetailsService implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        Optional<User> user = userRepo.findByUsername(username);
+        Optional<MyUser> user = userRepo.findByUsername(username);
 
         return user.map(MyUserDetails::new)
                 .orElseThrow(() -> new UsernameNotFoundException("Not found: " + username));

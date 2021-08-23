@@ -12,7 +12,7 @@ import javax.persistence.Id;
 @Getter
 @Setter
 @NoArgsConstructor
-public class User {
+public class MyUser {
     private
     @GeneratedValue
     @Id
@@ -28,7 +28,7 @@ public class User {
 
 
 
-    User(Long id, String firstname, String lastname, String name, String phone, boolean active, boolean isAdmin) {
+    MyUser(Long id, String firstname, String lastname, String name, String phone, boolean active, boolean isAdmin) {
         this.id = id;
         this.firstname = firstname;
         this.lastname = lastname;

@@ -1,12 +1,34 @@
 package cw.security;
 
-import cw.entities.User;
+import cw.entities.MyUser;
+import cw.repositoryInterfaces.InstructorRepo;
+import cw.repositoryInterfaces.StaffRepo;
+import cw.repositoryInterfaces.StudentRepo;
+import cw.repositoryInterfaces.UserRepo;
 import lombok.Getter;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.User;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 import java.util.Collection;
 
+import static cw.security.UserRoles.*;
+
 public class MyUserDetails implements org.springframework.security.core.userdetails.UserDetails {
+
+    @Autowired
+    private StudentRepo studentRepo;
+    @Autowired
+    private StaffRepo staffRepo;
+    @Autowired
+    private InstructorRepo instructorRepo;
+
+    @Autowired
+    private PasswordEncoder passwordEncoder;
+
     private String firstname;
     private String lastname;
     private String name;
@@ -15,24 +37,27 @@ public class MyUserDetails implements org.springframework.security.core.userdeta
     private boolean isAdmin;
     private String username;
     private String password;
+    private Collection<SimpleGrantedAuthority> authorities;
     @Getter
     private Long userID;
 
-    public MyUserDetails(User user) {
-        this.firstname = user.getUsername();
-        this.lastname = user.getLastname();
-        this.name = user.getName();
-        this.phone = user.getPhone();
-        this.active = user.isActive();
-        this.isAdmin = user.isAdmin();
-        this.username = user.getUsername();
-        this.password = user.getPassword();
-        this.userID = user.getId();
+    public MyUserDetails(MyUser myUser) {
+        this.firstname = myUser.getUsername();
+        this.lastname = myUser.getLastname();
+        this.name = myUser.getName();
+        this.phone = myUser.getPhone();
+        this.active = myUser.isActive();
+        this.isAdmin = myUser.isAdmin();
+        this.username = myUser.getUsername();
+        this.password = myUser.getPassword();
+        this.userID = myUser.getId();
+        findAuthorities(myUser.getId());
     }
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return null;
+
+        return authorities;
     }
 
     @Override
@@ -64,5 +89,24 @@ public class MyUserDetails implements org.springframework.security.core.userdeta
     public boolean isEnabled() {
         return active;
     }
+
+    private void findAuthorities(Long userID) {
+        if (studentRepo.existsStudentByUserID(userID))
+            authorities.addAll(STUDENT.getGrantedAuthorities());
+        if (staffRepo.existsStaffByUserID(userID))
+            authorities.addAll(STAFF.getGrantedAuthorities());
+        if (instructorRepo.existsInstructorByUserID(userID))
+            authorities.addAll(INSTRUCTOR.getGrantedAuthorities());
+    }
+
+//    UserDetails hich(MyUser myUser) {
+//        return User.builder()
+//                .username(myUser.getUsername())
+//                .password(myUser.getPassword())
+//                .roles(STUDENT.name())
+//                .authorities(authorities)
+//                .build();
+//
+//    }
 
 }

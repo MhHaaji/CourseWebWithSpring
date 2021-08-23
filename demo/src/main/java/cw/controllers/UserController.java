@@ -1,6 +1,6 @@
 package cw.controllers;
 
-import cw.entities.User;
+import cw.entities.MyUser;
 import cw.exeptions.AccessDeniedEx;
 import cw.exeptions.UnknownErrorEx;
 import cw.exeptions.UserNotFoundEx;
@@ -13,14 +13,13 @@ import cw.security.MyUserDetails;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.hateoas.CollectionModel;
 import org.springframework.hateoas.EntityModel;
+import org.springframework.hateoas.IanaLinkRelations;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -30,10 +29,6 @@ import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 
 @RestController
 @RequestMapping("/user")
-
-//@EnableJpaRepositories("cw.repositoryInterfaces")
-//@ComponentScan("cw.repositoryInterfaces")
-
 
 public class UserController {
 
@@ -57,23 +52,31 @@ public class UserController {
 
     @GetMapping("/all")
     @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_STAFF')")
-    public CollectionModel<EntityModel<User>> all() {
-        List<EntityModel<User>> employees = userRepo.findAll().stream() //
+    public CollectionModel<EntityModel<MyUser>> userList() {
+        List<EntityModel<MyUser>> employees = userRepo.findAll().stream() //
                 .map(assembler::toModel) //
                 .collect(Collectors.toList());
-        return CollectionModel.of(employees, linkTo(methodOn(UserController.class).all()).withSelfRel());
+        return CollectionModel.of(employees, linkTo(methodOn(UserController.class).userList()).withSelfRel());
 
     }
 
     @GetMapping("/{id}")
-    public EntityModel<User> one(@PathVariable Long id) {
-        User user = userRepo.findById(id).orElseThrow(() -> new UserNotFoundEx(id));
+    public EntityModel<MyUser> userRead(@PathVariable Long id) {
+        MyUser myUser = userRepo.findById(id).orElseThrow(() -> new UserNotFoundEx(id));
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         if (authentication.getPrincipal() instanceof MyUserDetails) {
             if (((MyUserDetails) authentication.getPrincipal()).getUserID() != id)
                 throw new AccessDeniedEx("Hoy! fouzool ://");
 
-            else return assembler.toModel(user);
+            else return assembler.toModel(myUser);
         } else throw new UnknownErrorEx();
     }
+
+    public ResponseEntity<?> userCreate (@RequestBody MyUser user){
+        EntityModel<MyUser> entityModel = assembler.toModel(userRepo.save(user));
+        return ResponseEntity //
+                .created(entityModel.getRequiredLink(IanaLinkRelations.SELF).toUri()) //
+                .body(entityModel);
+    }
+
 }
