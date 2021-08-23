@@ -1,5 +1,8 @@
 package cw.entities;
 
+
+import com.sun.istack.NotNull;
+import com.sun.istack.Nullable;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -17,13 +20,22 @@ public class MyUser {
     @GeneratedValue
     @Id
     Long id;
+    @NotNull
     private String firstname;
+    @NotNull
     private String lastname;
+    @Nullable
     private String name;
+    @NotNull
     private String phone;
+
     private boolean active;
+
     private boolean isAdmin;
+
+    @NotNull
     private String username;
+    @NotNull
     private String password;
 
 

@@ -1,5 +1,6 @@
 package cw.entities;
 
+import com.sun.istack.NotNull;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -16,7 +17,9 @@ public class Term {
     private @Id
     @GeneratedValue
     Long id;
+    @NotNull
     private String title;
+    @NotNull
     private boolean isOpen;
 
     public Term(String title) {

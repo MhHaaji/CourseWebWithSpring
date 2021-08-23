@@ -1,5 +1,7 @@
 package cw.entities;
 
+import com.sun.istack.NotNull;
+import com.sun.istack.Nullable;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -16,9 +18,13 @@ public class CourseSection {
     private @Id
     @GeneratedValue
     Long id;
+    @Nullable
     private int sectionNumber;
+    @NotNull
     private String courseTitle;
+    @NotNull
     private Long instructorID;
+    @Nullable
     private int numberOfStudents;
 
     public CourseSection(int sectionNumber, String courseTitle, Long instructorID) {

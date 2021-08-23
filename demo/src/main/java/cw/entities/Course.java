@@ -1,5 +1,6 @@
 package cw.entities;
 
+import com.sun.istack.NotNull;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -17,7 +18,9 @@ public class Course {
     private @Id
     @GeneratedValue
     Long id;
+    @NotNull
     private String title;
+    @NotNull
     private int unit;
 
     public Course(String title, int unit) {

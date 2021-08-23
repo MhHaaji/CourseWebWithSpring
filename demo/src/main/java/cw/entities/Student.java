@@ -1,5 +1,6 @@
 package cw.entities;
 
+import com.sun.istack.NotNull;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -16,6 +17,7 @@ public class Student{
     private @Id
     @GeneratedValue
     Long id;
+    @NotNull
     private Long userID;
 
     public Student(Long userID) {

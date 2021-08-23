@@ -1,5 +1,6 @@
 package cw.entities;
 
+import com.sun.istack.NotNull;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -16,7 +17,9 @@ public class Staff {
     private @Id
     @GeneratedValue
     Long id;
+    @NotNull
     private Long userID;
+    @NotNull
     private String personnelID;
 
     public Staff(Long userID, String personnelID) {
