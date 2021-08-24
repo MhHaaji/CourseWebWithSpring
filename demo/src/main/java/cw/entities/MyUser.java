@@ -1,6 +1,5 @@
 package cw.entities;
 
-
 import com.sun.istack.NotNull;
 import com.sun.istack.Nullable;
 import lombok.Getter;
@@ -31,7 +30,6 @@ public class MyUser {
 
     private boolean active;
 
-    private boolean isAdmin;
 
     @NotNull
     private String username;
@@ -39,14 +37,15 @@ public class MyUser {
     private String password;
 
 
-
-    MyUser(Long id, String firstname, String lastname, String name, String phone, boolean active, boolean isAdmin) {
-        this.id = id;
+    public MyUser(String firstname, String lastname, String phone, String username, String password) {
         this.firstname = firstname;
         this.lastname = lastname;
-        this.name = name;
+        this.name = firstname + " " + lastname;
         this.phone = phone;
-        this.active = active;
-        this.isAdmin = isAdmin;
+        this.username = username;
+        this.password = password;
+        this.active = false;
+
     }
+
 }

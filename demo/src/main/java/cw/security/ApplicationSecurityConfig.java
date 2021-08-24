@@ -2,7 +2,6 @@ package cw.security;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
@@ -17,6 +16,7 @@ import static cw.security.UserRoles.*;
 @Configuration
 @EnableWebSecurity
 @EnableGlobalMethodSecurity(prePostEnabled = true)
+
 public class ApplicationSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Autowired
@@ -41,28 +41,37 @@ public class ApplicationSecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http
+
+                .csrf().disable()
+
                 .authorizeRequests()
+
                 .antMatchers("/admin/**").hasRole(ADMIN.name())
                 .antMatchers("/staff/**").hasAnyRole(ADMIN.name(), STAFF.name())
                 .antMatchers("/instructor/**").hasAnyRole(ADMIN.name(), INSTRUCTOR.name(), STAFF.name())
                 .antMatchers("/student/**").hasAnyRole(ADMIN.name(), INSTRUCTOR.name(), STAFF.name(), STUDENT.name())
                 .antMatchers("/", "index", "/css/*", "/js/*").permitAll()
+                .antMatchers("/user/**").permitAll()
+
                 .anyRequest()
                 .authenticated()
-                .and().httpBasic();
+
+                .and()
+                .httpBasic();
 
     }
 
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
         auth
-                .userDetailsService(userDetailsService)// connecting to Repository
-                .passwordEncoder(passwordEncoder)
-
-                .and().inMemoryAuthentication() // making admin user:
-                .withUser(adminUsername)
-                .password(passwordEncoder.encode(adminPassword))
+                .inMemoryAuthentication() // making admin user:
+                .withUser("haaji")
+                .password(passwordEncoder.encode("haaji"))
                 .roles(ADMIN.name());
+
+        auth
+                .userDetailsService(userDetailsService)// connecting to Repository
+                .passwordEncoder(passwordEncoder);
     }
 
 }

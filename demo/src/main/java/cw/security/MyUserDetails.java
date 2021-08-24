@@ -34,7 +34,6 @@ public class MyUserDetails implements org.springframework.security.core.userdeta
     private String name;
     private String phone;
     private boolean active;
-    private boolean isAdmin;
     private String username;
     private String password;
     private Collection<SimpleGrantedAuthority> authorities;
@@ -47,7 +46,7 @@ public class MyUserDetails implements org.springframework.security.core.userdeta
         this.name = myUser.getName();
         this.phone = myUser.getPhone();
         this.active = myUser.isActive();
-        this.isAdmin = myUser.isAdmin();
+
         this.username = myUser.getUsername();
         this.password = myUser.getPassword();
         this.userID = myUser.getId();
