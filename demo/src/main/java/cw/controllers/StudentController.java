@@ -72,4 +72,10 @@ public class StudentController {
         studentRepo.deleteAllByUserID(userID);
     }
 
+    @GetMapping("hey")
+    @PreAuthorize("hasRole('ROLE_STUDENT')")
+    public void hey(){
+        System.out.println("hey!");
+    }
+
 }   

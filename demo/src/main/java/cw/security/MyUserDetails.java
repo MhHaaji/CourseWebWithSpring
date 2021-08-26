@@ -22,6 +22,7 @@ public class MyUserDetails implements org.springframework.security.core.userdeta
     @Autowired
     private InstructorRepo instructorRepo;
 
+
     private String firstname;
     private String lastname;
     private String name;
@@ -34,6 +35,7 @@ public class MyUserDetails implements org.springframework.security.core.userdeta
     private Long userID;
 
     public MyUserDetails(MyUser myUser) {
+        System.out.println("Here!!");
         this.firstname = myUser.getUsername();
         this.lastname = myUser.getLastname();
         this.name = myUser.getName();
@@ -43,7 +45,7 @@ public class MyUserDetails implements org.springframework.security.core.userdeta
         this.username = myUser.getUsername();
         this.password = myUser.getPassword();
         this.userID = myUser.getId();
-        findAuthorities(myUser.getId());
+        this.authorities = findAuthorities(myUser.getId());
     }
 
     @Override
@@ -54,11 +56,13 @@ public class MyUserDetails implements org.springframework.security.core.userdeta
 
     @Override
     public String getPassword() {
+        System.out.println("password!");
         return this.password;
     }
 
     @Override
     public String getUsername() {
+        System.out.println("username!");
         return this.username;
     }
 
@@ -79,16 +83,20 @@ public class MyUserDetails implements org.springframework.security.core.userdeta
 
     @Override
     public boolean isEnabled() {
+        System.out.println("active!");
         return active;
     }
 
-    private void findAuthorities(Long userID) {
+    private Collection<SimpleGrantedAuthority> findAuthorities(Long userID) {
+        System.out.println("ah!");
         if (studentRepo.existsStudentByUserID(userID))
             authorities.addAll(STUDENT.getGrantedAuthorities());
         if (staffRepo.existsStaffByUserID(userID))
             authorities.addAll(STAFF.getGrantedAuthorities());
         if (instructorRepo.existsInstructorByUserID(userID))
             authorities.addAll(INSTRUCTOR.getGrantedAuthorities());
+        System.out.println(authorities);
+        return authorities;
     }
 
 

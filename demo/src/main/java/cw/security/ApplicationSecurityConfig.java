@@ -2,6 +2,7 @@ package cw.security;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
@@ -9,6 +10,7 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 import static cw.security.UserRoles.*;
@@ -20,10 +22,6 @@ import static cw.security.UserRoles.*;
 public class ApplicationSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Autowired
-    private final PasswordEncoder passwordEncoder;
-
-
-    @Autowired
     private final UserDetailsService userDetailsService;
 
     //    @Value("#{passwordEncoder.encode('${haaji.admin-password}')}")
@@ -33,8 +31,8 @@ public class ApplicationSecurityConfig extends WebSecurityConfigurerAdapter {
     private String adminUsername;
 
     @Autowired
-    public ApplicationSecurityConfig(PasswordEncoder passwordEncoder, UserDetailsService userDetailsService) {
-        this.passwordEncoder = passwordEncoder;
+    public ApplicationSecurityConfig(UserDetailsService userDetailsService) {
+
         this.userDetailsService = userDetailsService;
     }
 
@@ -65,14 +63,18 @@ public class ApplicationSecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
         auth
                 .userDetailsService(userDetailsService)// connecting to Repository
-                .passwordEncoder(passwordEncoder);
-        auth
-                .inMemoryAuthentication() // making admin user:
-                .withUser("haaji")
-                .password(passwordEncoder.encode("haaji"))
-                .roles(ADMIN.name());
+                .passwordEncoder(getPasswordEncoder());
+//        auth
+//                .inMemoryAuthentication() // making admin user:
+//                .withUser("haaji")
+//                .password(getPasswordEncoder().encode("haaji"))
+//                .roles(ADMIN.name());
 
 
     }
 
+    @Bean
+    public PasswordEncoder getPasswordEncoder() {
+        return new BCryptPasswordEncoder(10);
+    }
 }
