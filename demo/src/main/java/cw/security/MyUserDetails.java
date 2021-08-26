@@ -4,14 +4,10 @@ import cw.entities.MyUser;
 import cw.repositoryInterfaces.InstructorRepo;
 import cw.repositoryInterfaces.StaffRepo;
 import cw.repositoryInterfaces.StudentRepo;
-import cw.repositoryInterfaces.UserRepo;
 import lombok.Getter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
-import org.springframework.security.core.userdetails.User;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.crypto.password.PasswordEncoder;
 
 import java.util.Collection;
 
@@ -25,9 +21,6 @@ public class MyUserDetails implements org.springframework.security.core.userdeta
     private StaffRepo staffRepo;
     @Autowired
     private InstructorRepo instructorRepo;
-
-    @Autowired
-    private PasswordEncoder passwordEncoder;
 
     private String firstname;
     private String lastname;
@@ -98,14 +91,5 @@ public class MyUserDetails implements org.springframework.security.core.userdeta
             authorities.addAll(INSTRUCTOR.getGrantedAuthorities());
     }
 
-//    UserDetails hich(MyUser myUser) {
-//        return User.builder()
-//                .username(myUser.getUsername())
-//                .password(myUser.getPassword())
-//                .roles(STUDENT.name())
-//                .authorities(authorities)
-//                .build();
-//
-//    }
 
 }

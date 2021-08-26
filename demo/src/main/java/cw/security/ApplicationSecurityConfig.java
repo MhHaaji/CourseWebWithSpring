@@ -64,14 +64,15 @@ public class ApplicationSecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
         auth
+                .userDetailsService(userDetailsService)// connecting to Repository
+                .passwordEncoder(passwordEncoder);
+        auth
                 .inMemoryAuthentication() // making admin user:
                 .withUser("haaji")
                 .password(passwordEncoder.encode("haaji"))
                 .roles(ADMIN.name());
 
-        auth
-                .userDetailsService(userDetailsService)// connecting to Repository
-                .passwordEncoder(passwordEncoder);
+
     }
 
 }

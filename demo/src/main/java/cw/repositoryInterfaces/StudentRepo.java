@@ -11,4 +11,5 @@ import java.util.Optional;
 public interface StudentRepo extends JpaRepository<Student, Long> {
     List<Student> findAllByUserID(Long userID);
     boolean existsStudentByUserID(Long userID);
+    void deleteAllByUserID(Long userID);
 }

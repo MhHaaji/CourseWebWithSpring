@@ -15,6 +15,7 @@ import javax.persistence.Id;
 @Setter
 @NoArgsConstructor
 public class MyUser {
+
     private
     @GeneratedValue
     @Id
@@ -44,8 +45,10 @@ public class MyUser {
         this.phone = phone;
         this.username = username;
         this.password = password;
+        ;
         this.active = false;
 
     }
+
 
 }
