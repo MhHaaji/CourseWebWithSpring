@@ -5,10 +5,14 @@ import com.sun.istack.Nullable;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.aspectj.weaver.tools.AbstractTrace;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import java.util.Collection;
+import java.util.Locale;
 
 @Entity
 @Getter
@@ -31,7 +35,6 @@ public class MyUser {
 
     private boolean active;
 
-
     @NotNull
     private String username;
     @NotNull
@@ -45,9 +48,17 @@ public class MyUser {
         this.phone = phone;
         this.username = username;
         this.password = password;
-        ;
-        this.active = false;
 
+
+    }
+
+    public MyUser (String username, String password) {
+        this.username = username;
+        this.password = password;
+        this.firstname = "haaji";
+        this.lastname = "haaji";
+        this.phone = "09135244700";
+        this.active = true;
     }
 
 

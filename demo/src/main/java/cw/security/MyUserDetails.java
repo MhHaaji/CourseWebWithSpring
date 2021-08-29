@@ -1,26 +1,14 @@
 package cw.security;
 
-import cw.entities.MyUser;
-import cw.repositoryInterfaces.InstructorRepo;
-import cw.repositoryInterfaces.StaffRepo;
-import cw.repositoryInterfaces.StudentRepo;
+import cw.DTO.userDTO.MyUserSecurityDTO;
 import lombok.Getter;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 
 import java.util.Collection;
 
-import static cw.security.UserRoles.*;
-
 public class MyUserDetails implements org.springframework.security.core.userdetails.UserDetails {
 
-    @Autowired
-    private StudentRepo studentRepo;
-    @Autowired
-    private StaffRepo staffRepo;
-    @Autowired
-    private InstructorRepo instructorRepo;
 
 
     private String firstname;
@@ -34,35 +22,36 @@ public class MyUserDetails implements org.springframework.security.core.userdeta
     @Getter
     private Long userID;
 
-    public MyUserDetails(MyUser myUser) {
+    public MyUserDetails(MyUserSecurityDTO myUser) {
         System.out.println("Here!!");
         this.firstname = myUser.getUsername();
         this.lastname = myUser.getLastname();
         this.name = myUser.getName();
         this.phone = myUser.getPhone();
         this.active = myUser.isActive();
+        System.out.println("activity: " + active);
 
         this.username = myUser.getUsername();
         this.password = myUser.getPassword();
         this.userID = myUser.getId();
-        this.authorities = findAuthorities(myUser.getId());
+        this.authorities = myUser.getAuthorities();
     }
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-
+        System.out.println(username + "auths are: " + authorities);
         return authorities;
     }
 
     @Override
     public String getPassword() {
-        System.out.println("password!");
+        System.out.println(username + " password is " + password);
         return this.password;
     }
 
     @Override
     public String getUsername() {
-        System.out.println("username!");
+        System.out.println(username + "is username");
         return this.username;
     }
 
@@ -83,21 +72,17 @@ public class MyUserDetails implements org.springframework.security.core.userdeta
 
     @Override
     public boolean isEnabled() {
-        System.out.println("active!");
+        System.out.println(username + "is Enabled? " + active );
         return active;
     }
 
-    private Collection<SimpleGrantedAuthority> findAuthorities(Long userID) {
-        System.out.println("ah!");
-        if (studentRepo.existsStudentByUserID(userID))
-            authorities.addAll(STUDENT.getGrantedAuthorities());
-        if (staffRepo.existsStaffByUserID(userID))
-            authorities.addAll(STAFF.getGrantedAuthorities());
-        if (instructorRepo.existsInstructorByUserID(userID))
-            authorities.addAll(INSTRUCTOR.getGrantedAuthorities());
-        System.out.println(authorities);
-        return authorities;
+
+    @Override
+    public boolean equals(Object obj) {
+        if (!(obj instanceof MyUserDetails))
+            return false;
+        if (this.password == ((MyUserDetails) obj).password && this.username == ((MyUserDetails) obj).username)
+            return true;
+        return false;
     }
-
-
 }
