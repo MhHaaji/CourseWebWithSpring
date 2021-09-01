@@ -1,5 +1,6 @@
 package cw.security;
 
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -17,10 +18,11 @@ import static cw.security.UserRoles.*;
 @Configuration
 @EnableWebSecurity
 @EnableGlobalMethodSecurity(prePostEnabled = true)
-
+@RequiredArgsConstructor
 public class ApplicationSecurityConfig extends WebSecurityConfigurerAdapter {
 
     private final UserDetailsService userDetailsService;
+    private final PasswordEncoder passwordEncoder;
 
     //    @Value("#{passwordEncoder.encode('${haaji.admin-password}')}")
     @Value("${haaji.admin-password}")
@@ -28,10 +30,6 @@ public class ApplicationSecurityConfig extends WebSecurityConfigurerAdapter {
     @Value("${haaji.admin-username}")
     private String adminUsername;
 
-    public ApplicationSecurityConfig(UserDetailsService userDetailsService) {
-
-        this.userDetailsService = userDetailsService;
-    }
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
@@ -62,15 +60,10 @@ public class ApplicationSecurityConfig extends WebSecurityConfigurerAdapter {
 
         auth
                 .userDetailsService(userDetailsService)
-                .passwordEncoder(getPasswordEncoder());
+                .passwordEncoder(passwordEncoder);
 
     }
 
 
-    @Bean
-    public PasswordEncoder getPasswordEncoder() {
 
-        return new BCryptPasswordEncoder(10);
-
-    }
 }

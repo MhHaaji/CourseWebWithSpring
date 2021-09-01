@@ -6,8 +6,6 @@ import cw.repositoryInterfaces.InstructorRepo;
 import cw.repositoryInterfaces.StaffRepo;
 import cw.repositoryInterfaces.StudentRepo;
 import cw.repositoryInterfaces.UserRepo;
-import org.modelmapper.ModelMapper;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -27,22 +25,18 @@ public class MyUserDetailsService implements UserDetailsService {
     private final StudentRepo studentRepo;
     private final StaffRepo staffRepo;
     private final InstructorRepo instructorRepo;
-    @Autowired
-    private ModelMapper modelMapper;
-
     public MyUserDetailsService(UserRepo userRepo, StudentRepo studentRepo,
-                                StaffRepo staffRepo, InstructorRepo instructorRepo,
-                                ModelMapper modelMapper) {
+                                StaffRepo staffRepo, InstructorRepo instructorRepo) {
         this.userRepo = userRepo;
         this.studentRepo = studentRepo;
         this.staffRepo = staffRepo;
         this.instructorRepo = instructorRepo;
-        this.modelMapper = modelMapper;
+
     }
 
     @Override
     public UserDetails loadUserByUsername(String username) {
-        System.out.println(username);
+
         Optional<MyUser> user = userRepo.findByUsername(username);
         if (user.isEmpty())
             System.out.println("FOHSHE RAKIK!");
